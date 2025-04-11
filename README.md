@@ -1,6 +1,3 @@
-# EEG_process
-EEG data_preprocess+analysis
-
 
 # 脑电数据预处理---念通智能设备版
 
