@@ -14,7 +14,11 @@ EEG data_preprocess+analysis
 
 pycharm+anaconda 预处理代码需要使用jupyter notebook，因此pycharm需要下载专业版（非学生付费），因此可选择
 
-【vscode+anaconda+jupyter】[https://blog.csdn.net/weixin_63470844/article/details/142186917?ops_request_misc=%257B%2522request%255Fid%2522%253A%25222ff5c71c4bcf14f5213437a42facacea%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=2ff5c71c4bcf14f5213437a42facacea&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-2-142186917-null-null.142^v102^pc_search_result_base8&utm_term=vscode%2Bjupter%2Banaconda&spm=1018.2226.3001.4187   前三步安装+ 【pycharm+anaconda中教程三创建环境】+ 在vscode中配置环境  https://blog.csdn.net/weixin_54383080/article/details/138613865?ops_request_misc=%257B%2522request%255Fid%2522%253A%252279c61edae3c00d10574097c2ba04482b%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=79c61edae3c00d10574097c2ba04482b&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-2-138613865-null-null.142^v102^pc_search_result_base8&utm_term=vscode%20conda%E7%8E%AF%E5%A2%83&spm=1018.2226.3001.4187   ]
+【vscode+anaconda+jupyter】
+前三步安装： https://blog.csdn.net/weixin_63470844/article/details/142186917?ops_request_misc=%257B%2522request%255Fid%2522%253A%25222ff5c71c4bcf14f5213437a42facacea%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=2ff5c71c4bcf14f5213437a42facacea&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-2-142186917-null-null.142^v102^pc_search_result_base8&utm_term=vscode%2Bjupter%2Banaconda&spm=1018.2226.3001.4187   
++ 【pycharm+anaconda中教程三创建环境】
++ 在vscode中配置环境
++ https://blog.csdn.net/weixin_54383080/article/details/138613865?ops_request_misc=%257B%2522request%255Fid%2522%253A%252279c61edae3c00d10574097c2ba04482b%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=79c61edae3c00d10574097c2ba04482b&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-2-138613865-null-null.142^v102^pc_search_result_base8&utm_term=vscode%20conda%E7%8E%AF%E5%A2%83&spm=1018.2226.3001.4187 
 
 本代码使用【pycharm+anaconda 】，环境搭建如下：
 
@@ -50,7 +54,7 @@ pip install pyqt
 
 建议在新建工程文件夹下再新建两个文件夹code和data分别存放代码和脑电数据
 
-![image-20250409115234669](pic\image-20250409115234669.png)
+![image-20250409115234669](pic/image-20250409115234669.png)
 
 将preprocess.py和analysis.py代码文件放置在code文件夹里
 
@@ -133,7 +137,7 @@ fig_after = EEG.plot(block=True)  # 可视化脑电信号
 
 弹出的可视化交互界面中，可进行的操作如下
 
-![image-20250410105519340](pic\image-20250410105519340.png)
+![image-20250410105519340](pic/image-20250410105519340.png)
 
 
 
@@ -210,13 +214,13 @@ ica.plot_components()
 
 肌电成分：17、21
 
-![image-20250411154450847](pic\image-20250411154450847.png)
+![image-20250411154450847](pic/image-20250411154450847.png)
 
-![image-20250411154526842](pic\image-20250411154526842.png)
+![image-20250411154526842](pic/image-20250411154526842.png)
 
 肌电成分的主要特征参见mne：https://mne.tools/stable/auto_examples/preprocessing/muscle_ica.html    成分波形为很密集的棘波，地形图主要集中在颞叶区/某一个位置
 
-![image-20250411154720359](pic\image-20250411154720359.png)
+![image-20250411154720359](pic/image-20250411154720359.png)
 
 
 
@@ -224,15 +228,15 @@ ica.plot_components()
 
 以下两种均为比较典型的眼电成分，两类眼电成分也有可能以红蓝颜色互换的形式呈现
 
-![image-20250411154616451](pic\image-20250411154616451.png)
+![image-20250411154616451](pic/image-20250411154616451.png)
 
 心电成分：参见https://mne.tools/stable/auto_tutorials/preprocessing/40_artifact_correction_ica.html
 
-![image-20250411155138940](pic\image-20250411155138940.png)
+![image-20250411155138940](pic/image-20250411155138940.png)
 
 使用算法自动寻找肌电伪迹，mne所采取的判断方法如下，再得到算法判断的成分之后，结合实验人员的判断综合考虑（需要实验人员double check，不能全部依赖算法实现）
 
-![image-20250411155509270](pic\image-20250411155509270.png)
+![image-20250411155509270](pic/image-20250411155509270.png)
 
 算法同时输出每一个成分判断为肌电的得分
 
