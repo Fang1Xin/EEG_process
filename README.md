@@ -157,7 +157,6 @@ EEG.filter(l_freq=None, h_freq=100)  # 修改：低通滤波，保留小于100Hz
 bad_channels = mne.preprocessing.find_bad_channels_lof(EEG, threshold=2)  # 设置threshold，超参数，数值越小越严格
 # ------- 分割线 -------（先运行第一个代码块，可从输出界面查看坏导，并根据要求对应修改阈值）
 EEG.info['bads'] = bad_channels
-print(EEG.info['bads'])
 EEG = EEG.interpolate_bads(reset_bads=True)  # 插值坏导
 ```
 
