@@ -52,7 +52,7 @@ pip install pyqt
 
 建议在新建工程文件夹下再新建两个文件夹code和data分别存放代码和脑电数据
 
-![image-20250409115234669](pic/image-20250409115234669.png)
+![image-20250409115234669](./pic/image-20250409115234669.png)
 
 将preprocess.py和analysis.py代码文件放置在code文件夹里
 
@@ -135,7 +135,7 @@ fig_after = EEG.plot(block=True)  # 可视化脑电信号
 
 弹出的可视化交互界面中，可进行的操作如下
 
-![image-20250410105519340](pic/image-20250410105519340.png)
+![image-20250410105519340](./pic/image-20250410105519340.png)
 
 
 
@@ -211,13 +211,13 @@ ica.plot_components()
 
 肌电成分：17、21
 
-![image-20250411154450847](pic/image-20250411154450847.png)
+![image-20250411154450847](./pic/image-20250411154450847.png)
 
-![image-20250411154526842](pic/image-20250411154526842.png)
+![image-20250411154526842](./pic/image-20250411154526842.png)
 
 肌电成分的主要特征参见mne：https://mne.tools/stable/auto_examples/preprocessing/muscle_ica.html    成分波形为很密集的棘波，地形图主要集中在颞叶区/某一个位置
 
-![image-20250411154720359](pic/image-20250411154720359.png)
+![image-20250411154720359](./pic/image-20250411154720359.png)
 
 
 
@@ -225,15 +225,15 @@ ica.plot_components()
 
 以下两种均为比较典型的眼电成分，两类眼电成分也有可能以红蓝颜色互换的形式呈现
 
-![image-20250411154616451](pic/image-20250411154616451.png)
+![image-20250411154616451](./pic/image-20250411154616451.png)
 
 心电成分：参见https://mne.tools/stable/auto_tutorials/preprocessing/40_artifact_correction_ica.html
 
-![image-20250411155138940](pic/image-20250411155138940.png)
+![image-20250411155138940](./pic/image-20250411155138940.png)
 
 使用算法自动寻找肌电伪迹，mne所采取的判断方法如下，再得到算法判断的成分之后，结合实验人员的判断综合考虑（需要实验人员double check，不能全部依赖算法实现）
 
-![image-20250411155509270](pic/image-20250411155509270.png)
+![image-20250411155509270](./pic/image-20250411155509270.png)
 
 算法同时输出每一个成分判断为肌电的得分
 
