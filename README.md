@@ -1,52 +1,10 @@
-
-# 脑电数据预处理---念通智能设备版
-（持续更新中......）
+# 脑电数据预处理---念通智能、Ant设备版
 
 自行整理python-mne的脑电数据预处理流程，欢迎随时讨论交流
 
 代码针对念通智能64导脑电设备采集得到的脑电信号bdf文件，其他设备见后续文件
 
 代码中使用mne包进行处理，官网：https://mne.tools/stable/documentation/index.html
-
-## 环境搭建
-
-pycharm+anaconda 预处理代码需要使用jupyter notebook，因此pycharm需要下载专业版（非学生付费），因此可选择
-
-【vscode+anaconda+jupyter】
-前三步安装： https://blog.csdn.net/weixin_63470844/article/details/142186917?ops_request_misc=%257B%2522request%255Fid%2522%253A%25222ff5c71c4bcf14f5213437a42facacea%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=2ff5c71c4bcf14f5213437a42facacea&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-2-142186917-null-null.142^v102^pc_search_result_base8&utm_term=vscode%2Bjupter%2Banaconda&spm=1018.2226.3001.4187   
-+ 【pycharm+anaconda中教程三创建环境】
-+ 在vscode中配置环境
-+ https://blog.csdn.net/weixin_54383080/article/details/138613865?ops_request_misc=%257B%2522request%255Fid%2522%253A%252279c61edae3c00d10574097c2ba04482b%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=79c61edae3c00d10574097c2ba04482b&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-2-138613865-null-null.142^v102^pc_search_result_base8&utm_term=vscode%20conda%E7%8E%AF%E5%A2%83&spm=1018.2226.3001.4187 
-
-本代码使用【pycharm+anaconda 】，环境搭建如下：
-
-参考教程（按照教程中（一）（二）的内容完成）：
-
-https://blog.csdn.net/lanbo_ai/article/details/142362749?ops_request_misc=%257B%2522request%255Fid%2522%253A%25224e0a81fefe9ae0122dfdcacaec085950%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=4e0a81fefe9ae0122dfdcacaec085950&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-4-142362749-null-null.142^v102^pc_search_result_base8&utm_term=pycharm%2Banaconda&spm=1018.2226.3001.4187
-
-教程中（三）：虚拟环境搭建
-
-创建环境（环境名：eeg，python版本为3.11）
-
-```
-conda create -n eeg python=3.11 -y
-```
-
-进入新创建的环境eeg
-
-```
-conda activate eeg
-```
-
-安装mne（脑电处理包、交互可视化界面包）
-
-```
-pip install mne
-# 这两句分别输入
-pip install pyqt 
-```
-
-之后依旧参照教程中的内容进行，新建项目 加载eeg环境
 
 ## 代码和数据导入
 
@@ -74,9 +32,21 @@ import matplotlib.pyplot as plt
 
 ### 脑电数据导入
 
+念通智能设备数据导入
+
 ```python
 input_data_path = r"D:\Documents\EEG\standard-EEG\data\静息3min_20250408095252.bdf"  # 修改：脑电数据位置
 raw = mne.io.read_raw_bdf(input_data_path, preload=True)  # EEG为读入进来的脑电数据
+```
+
+Ant设备数据导入
+
+```python
+# 数据载入与（Ant设备版）
+input_data_path = r"D:\Documents\EEG\split_EEG\data\fazhan_ban_2025-01-08_19-24-01.cnt"  # 修改：脑电数据位置
+raw = read_raw_ant(input_data_path, eog=r"EOG", preload=True)
+raw.pick("eeg").set_montage("standard_1005")
+raw.plot_sensors(kind='topomap', show_names=True)  # 查看电极位置（可注释）
 ```
 
 按照数据的格式修改对应的read_raw_bdf，mne支持多种脑电格式
@@ -120,6 +90,8 @@ raw.plot_sensors(kind='topomap', show_names=True)  # 查看电极位置（可注
 
 #### 查看脑电数据并先删除实验开始前后不稳定的数据
 
+注：这一步非必须，对于没有marker、后续不进行分段的脑电数据，可进行这一步，如果后续仅分析分段的脑电数据，这一步不用进行！
+
 在实验最开始记录时，以及快要结束时，往往会因为被试移动等多种因素导致数据不稳定，同时这两段脑电数据并非实验需要，因此将其截取掉，只保留中间的数据
 
 ```python
@@ -136,6 +108,14 @@ fig_after = EEG.plot(block=True)  # 可视化脑电信号
 弹出的可视化交互界面中，可进行的操作如下
 
 ![image-20250410105519340](./pic/image-20250410105519340.png)
+
+### 脑电赋值
+
+如果不进行上述删除首尾两端的数据的操作，需要进行这一步
+
+```python
+EEG = raw
+```
 
 
 
@@ -192,9 +172,77 @@ EEG.set_eeg_reference(ref_channels=['TP9', 'TP10'])   # 采用双侧乳突平均
 EEG.set_eeg_reference(ref_channels='REST')  # 采用零电位参考时 
 ```
 
+### 分段+剔除坏段（如果无marker则直接进行到整体去伪迹ICA小节）
 
+```python
+# 剔除坏段:通过annotation对数据进行分段，并根据峰峰值拒绝某些段
+# 查看数据中的marker
+events, event_id = mne.events_from_annotations(EEG)
+print(events)
+print(event_id)
+```
 
-### 去伪迹 ICA
+首先查看脑电数据中都有哪些marker并筛选出需要的
+
+```python
+# 删除无用marker
+del_arr = ['boundary', 'S 10', 'S 11', 'S 12']
+for i in del_arr:
+    event_id.pop(i, None)
+```
+
+删除无用，这一步没有就不运行了
+
+```python
+# 按剩余marker分段并进行基线校准，基线范围可设定baseline，分段时间可设定（基于marker时刻），根据峰峰值200uV拒绝坏段
+epochs = mne.Epochs(EEG, events, event_id, preload=True, tmin=-0.5, tmax=2, baseline=[-0.2, 0], reject=dict(eeg=200e-6))
+```
+
+开始分段，拒绝坏段
+
+### 分段脑电 去伪迹 ICA
+
+此处的代码与后一部分整体脑电ICA仅输入数据形式（整体/分段）不同，代码细微差异，不详细说明，请参考后面整体ICA部分的说明
+
+```python
+# 去伪迹 ICA
+ica = ICA(n_components=30,  max_iter='auto')
+ica.fit(epochs)
+ica.plot_sources(epochs, show=True)
+ica.plot_components()
+```
+
+```python
+# ICA 自动寻找肌电
+muscle_idx_auto, scores = ica.find_bads_muscle(EEG)
+ica.plot_scores(scores, exclude=muscle_idx_auto)  # 输出每一个成分被判断为肌电的分数
+print(f"Automatically found muscle artifact ICA components: {muscle_idx_auto}")  # 输出肌电伪迹的成分号
+```
+
+```python
+# ICA 自动寻找眼电
+eog_indices, eog_scores = ica.find_bads_eog(EEG, ch_name='Fpz')  # 设置伪眼电通道 ‘FPz’
+print(f"Automatically found eye artifact ICA components: {eog_indices}")
+```
+
+```python
+# 剔除肌电、眼电、心电成分
+ica.exclude = [0, 1, 5, 6, 10, 12, 14, 16, 19, 25]
+ica.apply(epochs)
+epochs.plot(show=True)
+```
+
+```python
+# 输出预处理后的脑电信号段
+output_data_path = r"D:\Documents\EEG\standard-EEG\data\preocessed_epo.fif"
+epochs.save(output_data_path)
+```
+
+注意此处修改保存地址，预处理完成
+
+-------------------------------------- 如果数据不进行分段直接进行这一部分的ICA，注意不要运行成上面分段后的ICA，会报错（ica.fit()里的内容不一样）---------------------------------------------
+
+### 整体脑电 去伪迹 ICA
 
 首先，ICA分解为n个成分，此处设置为30，ICA函数的运行逻辑是先将数据PCA降维后再进行ICA分解，为了ICA算法的稳定性和收敛性，设置其成分数一般为15-30；
 
@@ -273,7 +321,5 @@ EEG.plot(show=True)  # 查看去伪迹后的数据，可注释
 output_data_path = r"D:\Documents\EEG\standard-EEG\data\preocessed_eeg.fif"
 EEG.save(output_data_path)
 ```
+指定输出路径，保存fif格式，fif为mne脑电格式，若后续需要用eeglab处理，可使用EEG.export()替换，并将path里数据格式变为.set文件进行保存
 
-指定输出路径，保存fif格式
-
-备注：没有进行分段和坏段剔除，坏段剔除待后续更新（可能会放置在ICA之前）
